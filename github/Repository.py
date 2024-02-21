@@ -2429,6 +2429,7 @@ class Repository(CompletableGithubObject):
         branch: Opt[str] = NotSet,
         committer: Opt[InputGitAuthor] = NotSet,
         author: Opt[InputGitAuthor] = NotSet,
+        signature: Opt[InputGitAuthor] = NotSet,
     ) -> dict[str, ContentFile | Commit]:
         """This method updates a file in a repository
 
@@ -2464,6 +2465,8 @@ class Repository(CompletableGithubObject):
             put_parameters["author"] = author._identity
         if is_defined(committer):
             put_parameters["committer"] = committer._identity
+        if is_defined(signature):
+            put_parameters["signature"] = signature
 
         headers, data = self._requester.requestJsonAndCheck(
             "PUT",
